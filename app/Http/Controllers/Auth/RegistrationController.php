@@ -3,18 +3,18 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Http\Services\Auth\RegistrationService;
+use App\Business\Auth\RegistrationBusiness;
 use App\Http\Requests\StoreUserRequest;
 use Illuminate\Http\Request;
 
 class RegistrationController extends Controller
 {
-    private $RegistrationService;
+    private $RegistrationBusiness;
 
 
-    public function __construct(RegistrationService $RegistrationService)
+    public function __construct(RegistrationBusiness $RegistrationBusiness)
     {
-        $this->RegistrationService = $RegistrationService;
+        $this->RegistrationBusiness = $RegistrationBusiness;
     }
 
     public function index()
@@ -25,7 +25,7 @@ class RegistrationController extends Controller
     public function store(StoreUserRequest $request)
     {
 
-        $this->RegistrationService->store($request->only('email','username', 'password'));
+        $this->RegistrationBusiness->store($request->only('email','username', 'password'));
 
         return redirect()->route('login.index');
     }

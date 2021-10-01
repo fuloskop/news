@@ -12,6 +12,8 @@ class TestController extends Controller
 
     public function test()
     {
+
+
         $user = auth()->user();
         //$admin = "admin";
         //$user->assignRole($admin);

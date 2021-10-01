@@ -4,17 +4,17 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginUserRequest;
-use App\Http\Services\Auth\LoginService;
+use App\Business\Auth\LoginBusiness;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
-    private $LoginService;
+    private $LoginBusiness;
 
-    public function __construct(LoginService $LoginService)
+    public function __construct(LoginBusiness $LoginBusiness)
     {
-        $this->LoginService = $LoginService;
+        $this->LoginBusiness = $LoginBusiness;
     }
 
     public function index()
@@ -24,7 +24,7 @@ class LoginController extends Controller
 
     public function login(LoginUserRequest $request)
     {
-        if($this->LoginService->login($request->only('email', 'password'))){
+        if($this->LoginBusiness->login($request->only('email', 'password'))){
             return redirect()->route('home');
         }
 

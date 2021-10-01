@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Services\Auth;
+namespace App\Business\Auth;
 
 use Illuminate\Support\Facades\Hash;
-use App\Http\Repositories\Auth\RegistrationRepository;
+use App\Repositories\Auth\RegistrationRepository;
 
 
-class RegistrationService
+class RegistrationBusiness
 {
     protected $RegistrationRepository;
 
