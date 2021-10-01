@@ -13,6 +13,8 @@ class TestController extends Controller
     public function test()
     {
         $user = auth()->user();
+        //$admin = "admin";
+        //$user->assignRole($admin);
 
         //$role = Role::create(['name' => 'user']);
         //$permission = Permission::create(['name' => 'can comment']);

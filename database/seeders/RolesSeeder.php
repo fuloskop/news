@@ -21,15 +21,23 @@ class RolesSeeder extends Seeder
 
         Permission::create(['name' => 'can comment']);
         Permission::create(['name' => 'delete own comment']);
+        Permission::create(['name' => 'access admin panel']);
+        Permission::create(['name' => 'give admin and moderator permission']);
+        Permission::create(['name' => 'give editor permission']);
 
 
         $admin_role = Role::create(['name' => 'admin']);
         $admin_role->givePermissionTo('can comment');
         $admin_role->givePermissionTo('delete own comment');
+        $admin_role->givePermissionTo('access admin panel');
+        $admin_role->givePermissionTo('give admin and moderator permission');
+        $admin_role->givePermissionTo('give editor permission');
 
         $mod_role = Role::create(['name' => 'moderator']);
         $mod_role->givePermissionTo('can comment');
         $mod_role->givePermissionTo('delete own comment');
+        $mod_role->givePermissionTo('access admin panel');
+        $mod_role->givePermissionTo('give editor permission');
 
         $editor_role = Role::create(['name' => 'editor']);
 

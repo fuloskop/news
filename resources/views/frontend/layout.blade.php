@@ -12,9 +12,11 @@
     <!-- Google Fonts Roboto -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap"/>
     <!-- Dark MDB theme -->
-    <link rel="stylesheet" href="css/mdb.dark.min.css" />
+    <link rel="stylesheet" href="{{asset('css/mdb.dark.min.css')}}" />
     <!-- Regular MDB theme -->
     <!-- <link rel="stylesheet" href="css/mdb.min.css" /> -->
+    <!-- Jquery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 <body>
 <!-- Navbar -->
@@ -48,14 +50,17 @@
             <!-- Left links -->
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Dashboard</a>
+                    <a class="nav-link" href="#">Haberler</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Team</a>
+                    <a class="nav-link" href="#">Kategoriler</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Projects</a>
-                </li>
+                @can('access admin panel')
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{route('AdminPanel')}}">Admin Panel</a>
+                    </li>
+                @endcan
+
             </ul>
             <!-- Left links -->
         </div>
@@ -105,8 +110,10 @@
     @yield('content')
 </div>
 
-<script type="text/javascript" src="js/mdb.min.js"></script>
+<script type="text/javascript" src="{{asset('js/mdb.min.js')}}"></script>
 <!-- Custom scripts -->
-<script type="text/javascript"></script>
+
+@yield('script')
+
 </body>
 </html>
