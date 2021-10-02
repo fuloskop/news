@@ -1,5 +1,6 @@
 @extends('frontend.AdminPanel.AdminLayout')
 
+
 @section('admincontect')
     <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
         <div class="panel-body">
@@ -66,16 +67,18 @@
 
                 let roletype = $(this).attr('id');
                 let user_id = $(this).attr('data-id');
-                let _token   = $('meta[name="csrf-token"]').attr('content');
+
+
 
                 $.ajax({
+
                     url: "{{route('api.setrole')}}",
                     type:"POST",
                     data:{
+                        "_token": "{{ csrf_token() }}",
                         roletype:roletype,
                         user_id:user_id,
-                        added:1,
-                        _token: _token
+                        added:1
                     },
                     success:function(response){
                         console.log(response);
@@ -91,16 +94,16 @@
 
                 let roletype = $(this).attr('id');
                 let user_id = $(this).attr('data-id');
-                let _token   = $('meta[name="csrf-token"]').attr('content');
+
 
                 $.ajax({
-                    url: "/api/setrole",
+                    url: "{{route('api.setrole')}}",
                     type:"POST",
                     data:{
+                        "_token": "{{ csrf_token() }}",
                         roletype:roletype,
                         user_id:user_id,
-                        added:0,
-                        _token: _token
+                        added:0
                     },
                     success:function(response){
                         console.log(response);

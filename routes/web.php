@@ -17,9 +17,7 @@ Route::get('/home', function () {
     return view('welcome');
 })->name('homepage');
 
-Route::get('/', function () {
-    return view('frontend.home');
-})->name('home');
+
 
 
 
@@ -35,11 +33,20 @@ Route::group(['middleware' => 'guest'], function () {
 Route::post('/setrole', 'Admin\AdminController@updateRoles')->name('api.setrole');
 
 Route::group(['middleware' => 'auth'], function () {
-    Route::get('/logout','Auth\LoginController@logout')->name('logout');
+    Route::get('/', function () {
+        return view('frontend.home');
+    })->name('home');
 
-    Route::prefix('admin')->group(function () {
-        Route::get('/', 'Admin\AdminController@getAdminPanel')->name('AdminPanel');
-        Route::get('/roles', 'Admin\AdminController@changeRoles')->name('AdminRoles');
+    Route::get('/logout','Auth\LoginController@logout')->name('logout');
+    Route::get('/delaccount', 'DeleteAccountRequestController@create')->name('create.delacount');
+    Route::post('/delaccount', 'DeleteAccountRequestController@store')->name('store.delacount');
+
+    Route::group(['prefix' => 'admin', 'middleware' => ['role:admin|moderator']] , function () {
+        Route::get('', 'Admin\AdminController@getAdminPanel')->name('AdminPanel');
+        Route::get('roles', 'Admin\AdminController@changeRoles')->name('AdminRoles');
+        Route::get('deleterequests', 'Admin\AdminController@AdminAcctDelReqIndex')->name('AdminAcctDelReqIndex');
+        Route::get('deleterequests/{id}', 'Admin\AdminController@AdminAcctDelReqShow')->name('AdminAcctDelReqShow');
+        Route::post('deleterequests/{id}', 'Admin\AdminController@AdminAcctDelReqUpdate')->name('AdminAcctDelReqUpdate');
     });
 });
 

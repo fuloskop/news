@@ -17,6 +17,12 @@ class RolesSeeder extends Seeder
      */
     public function run()
     {
+        $deleteduser = \App\Models\User::factory()->create([
+            'username' => 'Deleted_User',
+            'email' => 'Deleted_User',
+            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
+        ]);
+
         app()[PermissionRegistrar::class]->forgetCachedPermissions();
 
         Permission::create(['name' => 'can comment']);

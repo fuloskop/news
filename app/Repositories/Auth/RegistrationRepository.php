@@ -13,15 +13,9 @@ class RegistrationRepository
         $this->user = $user;
     }
 
-    public function giveuserperm(User $user)
-    {
-        $user->assignRole('user');
-    }
-
     public function store($data)
     {
         $user = User::create($data);
-        $this->giveuserperm($user);
-        return $user->fresh;
+        return $user;
     }
 }

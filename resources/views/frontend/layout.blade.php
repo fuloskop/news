@@ -17,6 +17,9 @@
     <!-- <link rel="stylesheet" href="css/mdb.min.css" /> -->
     <!-- Jquery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    @yield('head')
+
 </head>
 <body>
 <!-- Navbar -->
@@ -77,18 +80,15 @@
                 data-mdb-toggle="dropdown"
                 aria-expanded="false"
             >
-                <img
-                    src="https://mdbootstrap.com/img/new/avatars/2.jpg"
-                    class="rounded-circle"
-                    height="25"
-                    alt=""
-                    loading="lazy"
-                />
+                {{ auth()->user()->username }}
             </a>
             <ul
                 class="dropdown-menu dropdown-menu-end"
                 aria-labelledby="navbarDropdownMenuLink"
             >
+                <li>
+                    <a class="dropdown-item" href="{{route('create.delacount')}}">Delete Account</a>
+                </li>
                 <li>
                     <a class="dropdown-item" href="#">My profile</a>
                 </li>
@@ -106,7 +106,7 @@
 </nav>
 <!-- Navbar -->
 <!-- Optional JavaScript; choose one of the two! -->
-<div class="container">
+<div class="container mt-3">
     @yield('content')
 </div>
 
