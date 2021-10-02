@@ -68,8 +68,6 @@
                 let roletype = $(this).attr('id');
                 let user_id = $(this).attr('data-id');
 
-
-
                 $.ajax({
 
                     url: "{{route('api.setrole')}}",
@@ -94,7 +92,6 @@
 
                 let roletype = $(this).attr('id');
                 let user_id = $(this).attr('data-id');
-
 
                 $.ajax({
                     url: "{{route('api.setrole')}}",

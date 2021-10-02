@@ -28,11 +28,19 @@ class AdminController extends Controller
 
     public function updateRoles(Request $request)
     {
+
         $validated = $request->validate([
             'user_id' => 'required|exists:users,id',
             'added' => 'required|boolean',
             'roletype' => 'required|in:admin,moderator,editor',
         ]);
+
+        if(auth()->user()->hasRole('moderator') && $request->roletype!='editor'){
+            return $result = [
+                'status' => 403,
+                'error' => 'Yetkisiz işlem denemesi.'
+            ];
+        }
 
         $result = ['status' => 200];
         try {

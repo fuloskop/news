@@ -30,7 +30,7 @@ Route::group(['middleware' => 'guest'], function () {
     Route::post('login', 'Auth\LoginController@login')->name('login');
 });
 
-Route::post('/setrole', 'Admin\AdminController@updateRoles')->name('api.setrole');
+//Route::post('/setrole', 'Admin\AdminController@updateRoles')->name('api.setrole');
 
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/', function () {

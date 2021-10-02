@@ -45,6 +45,9 @@ class AdminRepository
             $RequestToEnded->update($data);
             $this->DestroyUser($DeleteUser);
         }
+        else{
+            $RequestToEnded->update($data);
+        }
     }
 
     public function DestroyUser(User $user)
