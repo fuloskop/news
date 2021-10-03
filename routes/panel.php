@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Route;
 Route::group(['middleware' => 'auth','prefix' => 'api/v1'], function () {
     Route::group(['middleware' => ['role:admin|moderator']] , function () {
         Route::post('/setrole', 'Admin\AdminController@updateRoles')->name('api.setrole');
+        Route::post('/seteditorcateg', 'Admin\AdminController@setEditorCategory')->name('api.seteditorcateg');
     });
 });
 

@@ -55,6 +55,13 @@ Route::group(['middleware' => 'auth'], function () {
         //getAdminChangeEditorCategoriesPage
         Route::get('changeeditorcateg', 'Admin\AdminController@getAdminChangeEditorCategoriesPage')->name('AdminChangeEditorCateg.index');
         Route::get('changeeditorcateg/{id}', 'Admin\AdminController@AdminChangeEditorCategoriesShow')->name('AdminChangeEditorCateg.show');
+        Route::get('indexcategory', 'Admin\AdminController@indexCategory')->name('Category.index');
+        Route::get('createcategory', 'Admin\AdminController@createCategory')->name('Category.create');
+        Route::post('storecategory', 'Admin\AdminController@storeCategory')->name('Category.store');
+        Route::get('editcategory/{id}', 'Admin\AdminController@editCategory')->name('Category.edit');
+        Route::post('editcategory/{id}', 'Admin\AdminController@updateCategory')->name('Category.update');
+        Route::get('destroycategory/{id}', 'Admin\AdminController@destroyCategory')->name('Category.destroy');
+
     });
 });
 

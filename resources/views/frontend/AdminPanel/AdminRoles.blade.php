@@ -57,59 +57,59 @@
 
         </div>
     </div>
+
+    <div id="myModal" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="spinner-border text-secondary mx-2" role="status">
+                    </div>
+                    <span>Loading...</span>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @section('script')
     <script>
         $('.form-check-input').click(function() {
+            $('#myModal').modal({backdrop:'static', keyboard:false});
+            $("#myModal").modal('show');
+            let roletype = $(this).attr('id');
+            let user_id = $(this).attr('data-id');
+            let added;
             if ($(this).is(':checked')) {
                 console.log('denemechecked'+$(this).attr('id')+$(this).attr('data-id'));
-
-                let roletype = $(this).attr('id');
-                let user_id = $(this).attr('data-id');
-
-                $.ajax({
-
-                    url: "{{route('api.setrole')}}",
-                    type:"POST",
-                    data:{
-                        "_token": "{{ csrf_token() }}",
-                        roletype:roletype,
-                        user_id:user_id,
-                        added:1
-                    },
-                    success:function(response){
-                        console.log(response);
-                        if(response) {
-                            $('.success').text(response.success);
-
-                        }
-                    },
-                });
+                added = 1;
             }
             else{
                 console.log('denemenotcheck'+$(this).attr('id')+$(this).attr('data-id'));
-
-                let roletype = $(this).attr('id');
-                let user_id = $(this).attr('data-id');
-
-                $.ajax({
-                    url: "{{route('api.setrole')}}",
-                    type:"POST",
-                    data:{
-                        "_token": "{{ csrf_token() }}",
-                        roletype:roletype,
-                        user_id:user_id,
-                        added:0
-                    },
-                    success:function(response){
-                        console.log(response);
-                        if(response) {
-                            $('.success').text(response.success);
-                        }
-                    },
-                });
+                added = 0;
             }
+            $.ajax({
+                url: "{{route('api.setrole')}}",
+                type:"POST",
+                data:{
+                    "_token": "{{ csrf_token() }}",
+                    roletype:roletype,
+                    user_id:user_id,
+                    added:added
+                },
+                success:function(response){
+                    console.log(response);
+                    setTimeout(function() {
+                        delaySuccess();
+                    }, 1000);
+                    if(response) {
+                        $('.success').text(response.success);
+                    }
+                },
+            });
         });
+
+        function delaySuccess() {
+            $("#myModal").modal('hide');
+        }
     </script>
 @endsection

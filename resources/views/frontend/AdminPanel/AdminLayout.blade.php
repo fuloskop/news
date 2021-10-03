@@ -12,7 +12,7 @@
             <a href="{{route('AdminAcctDelReqIndex')}}" class="nav-link text-center">
             Hesap Silme Onayı
             </a>
-            <a href="" class="nav-link text-center">
+            <a href="{{route('Category.index')}}" class="nav-link text-center">
                 Kategori Düzenle
             </a>
             <a href="{{route('AdminChangeEditorCateg.index')}}" class="nav-link text-center">

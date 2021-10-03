@@ -64,4 +64,19 @@ class AdminBusiness
         return $this->AdminRepository->getAllCategories();
     }
 
+    public function storeOrUpdateCategory($data, &$id=null)
+    {
+        $this->AdminRepository->storeOrUpdateCategory($data, $id);
+    }
+
+    public function getCategoryById($id)
+    {
+        return $this->AdminRepository->getCategoryById($id);
+    }
+
+    public function destroyCategotyById($id)
+    {
+        $category = $this->getCategoryById($id);
+        $this->AdminRepository->DestroyCategory($category);
+    }
 }

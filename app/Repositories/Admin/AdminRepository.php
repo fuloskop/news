@@ -64,4 +64,25 @@ class AdminRepository
     {
         return Category::all();
     }
+
+    public function storeOrUpdateCategory($data,&$id=null)
+    {
+        Category::updateOrCreate([
+                'id'   => $id,
+            ]
+            ,
+            [
+                'name' => $data['name'],
+            ]);
+    }
+
+    public function getCategoryById($id)
+    {
+        return $category = Category::findOrFail($id);
+    }
+
+    public function DestroyCategory(Category $category)
+    {
+        $category->delete();
+    }
 }

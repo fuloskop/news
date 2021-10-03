@@ -27,6 +27,50 @@ class AdminController extends Controller
         return view('frontend.AdminPanel.AdminRoles',compact('users'));
     }
 
+    public function indexCategory()
+    {
+        $categories = $this->AdminBusiness->getAllCategories();
+        return view('frontend.AdminPanel.AdminIndexCategory', compact('categories'));
+    }
+
+    public function createCategory()
+    {
+        return view('frontend.AdminPanel.AdminCreateCategory');
+    }
+
+    public function storeCategory(Request $request)
+    {
+        $validated = $request->validate([
+            'name' => 'required|string',
+        ]);
+
+        $this->AdminBusiness->storeOrUpdateCategory($request->only('name'));
+        return redirect()->route('Category.index');
+    }
+
+    public function editCategory($id)
+    {
+        $category = $this->AdminBusiness->getCategoryById($id);
+        return view('frontend.AdminPanel.AdminCreateCategory',compact('category'));
+    }
+
+    public function updateCategory(Request $request, $id)
+    {
+        $validated = $request->validate([
+            'name' => 'required|string',
+        ]);
+        $this->AdminBusiness->getCategoryById($id);
+        $this->AdminBusiness->storeOrUpdateCategory($request->only('name'), $id);
+
+        return redirect()->route('Category.index');
+    }
+
+    public function destroyCategory($id)
+    {
+        $this->AdminBusiness->destroyCategotyById($id);
+        return redirect()->route('Category.index');
+    }
+
     public function updateRoles(Request $request)
     {
 
@@ -50,6 +94,7 @@ class AdminController extends Controller
                 $user->assignRole($request->roletype);
             } else {
                 $user->removeRole($request->roletype);
+                $user->categories()->detach();
             }
         }catch (Exception $e) {
             $result = [
@@ -106,6 +151,40 @@ class AdminController extends Controller
         }
         abort(404);
 
+    }
+
+    public function setEditorCategory(Request $request)
+    {
+        $validated = $request->validate([
+            'user_id' => 'required|exists:users,id',
+            'added' => 'required|boolean',
+            'category_id' => 'required|exists:categories,id',
+        ]);
+
+        if(!auth()->user()->hasRole('moderator') && !auth()->user()->hasRole('admin')){
+            return $result = [
+                'status' => 403,
+                'error' => 'Yetkisiz işlem denemesi.'
+            ];
+        }
+
+        $result = ['status' => 200];
+        try {
+            $user = $this->AdminBusiness->getUsersById($request->user_id);
+            if ($request->added==1) {
+                $user->categories()->attach($request->category_id);
+            } else {
+                $user->categories()->detach($request->category_id);
+            }
+        }catch (Exception $e) {
+            $result = [
+                'status' => 500,
+                'error' => $e->getMessage(),
+                'test'=>$request->all()
+            ];
+        }
+
+        return response()->json($result,$result['status']);
     }
 
 
