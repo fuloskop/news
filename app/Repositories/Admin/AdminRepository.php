@@ -2,6 +2,7 @@
 
 namespace App\Repositories\Admin;
 
+use App\Models\Category;
 use App\Models\DeleteAccountRequest;
 use App\Models\User;
 
@@ -41,7 +42,6 @@ class AdminRepository
         if($data['request_status']=='accepted'){
             $DeleteUser =$this->getUsersById($RequestToEnded->user_id);
             $data['answer'] = $data['answer']." Username = $DeleteUser->username";
-            $data = array_merge($data, ['user_id' => 1]);
             $RequestToEnded->update($data);
             $this->DestroyUser($DeleteUser);
         }
@@ -53,5 +53,15 @@ class AdminRepository
     public function DestroyUser(User $user)
     {
         $user->delete();
+    }
+
+    public function getAllEditorUsers()
+    {
+        return User::role('editor')->get();
+    }
+
+    public function getAllCategories()
+    {
+        return Category::all();
     }
 }

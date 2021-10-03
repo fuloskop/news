@@ -36,7 +36,8 @@
                                 </button>
                             </a>
                                 @endif
-                    </tr>
+                    </td>
+                </tr>
                 @endforeach
                 </tbody>
             </table>

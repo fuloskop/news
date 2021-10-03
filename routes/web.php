@@ -41,12 +41,20 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/delaccount', 'DeleteAccountRequestController@create')->name('create.delacount');
     Route::post('/delaccount', 'DeleteAccountRequestController@store')->name('store.delacount');
 
+    Route::group(['prefix' => 'editor','middleware' => ['can:access editor panel']], function () {
+        Route::get('', 'Editor\EditorController@getEditorPanel')->name('EditorPanel');
+        Route::get('createnews', 'Editor\EditorController@createnews')->name('Editor.createnews');
+    });
+
     Route::group(['prefix' => 'admin', 'middleware' => ['role:admin|moderator']] , function () {
         Route::get('', 'Admin\AdminController@getAdminPanel')->name('AdminPanel');
         Route::get('roles', 'Admin\AdminController@changeRoles')->name('AdminRoles');
         Route::get('deleterequests', 'Admin\AdminController@AdminAcctDelReqIndex')->name('AdminAcctDelReqIndex');
         Route::get('deleterequests/{id}', 'Admin\AdminController@AdminAcctDelReqShow')->name('AdminAcctDelReqShow');
         Route::post('deleterequests/{id}', 'Admin\AdminController@AdminAcctDelReqUpdate')->name('AdminAcctDelReqUpdate');
+        //getAdminChangeEditorCategoriesPage
+        Route::get('changeeditorcateg', 'Admin\AdminController@getAdminChangeEditorCategoriesPage')->name('AdminChangeEditorCateg.index');
+        Route::get('changeeditorcateg/{id}', 'Admin\AdminController@AdminChangeEditorCategoriesShow')->name('AdminChangeEditorCateg.show');
     });
 });
 

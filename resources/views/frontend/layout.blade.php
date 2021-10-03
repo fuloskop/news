@@ -63,6 +63,11 @@
                         <a class="nav-link" href="{{route('AdminPanel')}}">Admin Panel</a>
                     </li>
                 @endcan
+                @can('access editor panel')
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{route('EditorPanel')}}">Editor Panel</a>
+                    </li>
+                @endcan
 
             </ul>
             <!-- Left links -->

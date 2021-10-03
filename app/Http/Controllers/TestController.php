@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
@@ -14,7 +15,12 @@ class TestController extends Controller
     {
 
 
-        $user = auth()->user();
+        $user = User::find(13);
+
+        //$user->categories()->attach(6);
+
+
+
         //$admin = "admin";
         //$user->assignRole($admin);
 
@@ -26,6 +32,6 @@ class TestController extends Controller
 
         //$user->assignRole('user');
 
-        return $user->getPermissionsViaRoles();
+        return $user->categories;
     }
 }

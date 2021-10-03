@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Business\Admin\AdminBusiness;
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
@@ -88,4 +89,24 @@ class AdminController extends Controller
         $this->AdminBusiness->getAccountDeleteRequestEnd($request->only('answer','request_status'),$id);
         return redirect()->route('AdminAcctDelReqIndex');
     }
+
+    public function getAdminChangeEditorCategoriesPage()
+    {
+        $AllEditors = $this->AdminBusiness->getAllEditorUsers();
+        return view('frontend.AdminPanel.AdminChangeEditorCategoriesPage',compact('AllEditors'));
+    }
+
+    public function AdminChangeEditorCategoriesShow($id)
+    {
+        $user = $this->AdminBusiness->getUsersById($id);
+        if($this->AdminBusiness->isEditor($user)){
+            $AllCategories = $this->AdminBusiness->getAllCategories();
+
+            return view('frontend.AdminPanel.AdminChangeEditorCategoriesShow',compact('user','AllCategories'));
+        }
+        abort(404);
+
+    }
+
+
 }

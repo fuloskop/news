@@ -44,4 +44,19 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    //->hasRole('editor');
+
+    public function categories()
+    {
+        //return $this->belongsToMany(RelatedModel, pivot_table_name, foreign_key_of_current_model_in_pivot_table, foreign_key_of_other_model_in_pivot_table);
+
+        return $this->belongsToMany(
+            Category::class,
+            'categories_users',
+            'user_id',
+            'category_id');
+
+    }
+
 }
