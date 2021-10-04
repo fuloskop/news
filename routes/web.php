@@ -37,13 +37,20 @@ Route::group(['middleware' => 'auth'], function () {
         return view('frontend.home');
     })->name('home');
 
+    Route::post('ckeditor/upload', 'CKEditorController@upload')->name('ckeditor.image-upload');
+
     Route::get('/logout','Auth\LoginController@logout')->name('logout');
     Route::get('/delaccount', 'DeleteAccountRequestController@create')->name('create.delacount');
     Route::post('/delaccount', 'DeleteAccountRequestController@store')->name('store.delacount');
 
-    Route::group(['prefix' => 'editor','middleware' => ['can:access editor panel']], function () {
+    Route::group(['prefix' => 'editor','middleware' => ['role:admin|moderator|editor']], function () {
         Route::get('', 'Editor\EditorController@getEditorPanel')->name('EditorPanel');
+        Route::get('indexnews', 'Editor\EditorController@indexnews')->name('Editor.indexnews');
         Route::get('createnews', 'Editor\EditorController@createnews')->name('Editor.createnews');
+        Route::post('storenews', 'Editor\EditorController@storenews')->name('Editor.storenews');
+        Route::get('editenews/{id}', 'Editor\EditorController@editnews')->name('Editor.editenews');
+        Route::post('editenews/{id}', 'Editor\EditorController@updatenews')->name('Editor.updatenews');
+        Route::get('destroynews/{id}', 'Editor\EditorController@destroynews')->name('Editor.destroynews');
     });
 
     Route::group(['prefix' => 'admin', 'middleware' => ['role:admin|moderator']] , function () {

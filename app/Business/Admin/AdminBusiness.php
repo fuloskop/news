@@ -33,10 +33,13 @@ class AdminBusiness
 
     public function getAccountDeleteRequestEnd($data,$id)
     {
+        /*
         if($data['request_status']=='accepted'){
             $data = array_merge($data, ['user_id' => 1]);
         }
-       $DeleteAccountRequest = $this->AdminRepository->getAccountDeleteRequestEnd($data,$id);
+        */
+
+       $this->AdminRepository->getAccountDeleteRequestEnd($data,$id);
         //dd($DeleteAccountRequest);
 
     }

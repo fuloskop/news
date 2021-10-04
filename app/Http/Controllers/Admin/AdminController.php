@@ -119,8 +119,9 @@ class AdminController extends Controller
         $ForValidation = ['id' => $id,];
         $validator = Validator::make($ForValidation, ['id' => 'required|exists:delete_account_requests,id']);
         */
-
         $DeleteAccountRequest = $this->AdminBusiness->getAccountDeleteRequestById($id);
+        if($DeleteAccountRequest->request_status=="accepted")
+            return back()->withErrors('Bu talep sonlandırılmıştır.');
         return view('frontend.AdminPanel.AdminAcctDelReqShow',compact('DeleteAccountRequest'));
     }
 

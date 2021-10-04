@@ -15,12 +15,12 @@ class CreateDeleteAccountRequestsTable extends Migration
     {
         Schema::create('delete_account_requests', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('user_id')->nullable();
             $table->text('body')->nullable();;
             $table->enum('request_status',['waiting','accepted','denied'])->default('waiting');
             $table->text('answer')->nullable();
             //$table->foreign('user_id')->references('id')->on('users')->cascadeOnDelete();
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('user_id')->references('id')->on('users')->nullOnDelete();
             $table->timestamps();
         });
     }

@@ -5,29 +5,28 @@
 
 @section('editorcontect')
     <div class="col-md-12  mt-4">
-        <form method="POST" action="{{route('Editor.storenews')}}" >
+        <form method="POST" action="{{route('Editor.updatenews',$news->id)}}" >
             <div class="row">
                 <div class="col-md-5">
                     Haber Yapma Yetkiniz Olan Kategoriler :
                 </div>
                 <div class="col-md-5">
                     <select class="form-select" name="category_id" aria-label="Default select example">
-                        <option selected>Open this select menu</option>
-                        @foreach($AvailableCategories as $AvailableCategory)
-                        <option name="category_id" value="{{$AvailableCategory->id}}">{{$AvailableCategory->name}}</option>
+                        @foreach($Categories as $Category)
+                        <option name="category_id" value="{{$Category->id}}" @if($Category->id==$news->category_id) selected @endif>{{$Category->name}}</option>
                         @endforeach
                     </select>
                 </div>
             </div>
 
             <div class="form-outline mb-4 mt-4">
-                <input type="text" name="title" class="form-control" value="{{old('title')}}">
+                <input type="text" name="title" class="form-control" value="{{$news->title}}">
                 <label class="form-label" style="margin-left: 0px">Haber Başlığı :</label>
             </div>
 
         <!-- Message input -->
             <div class="form-outline mb-4">
-                <textarea class="ckeditor form-control" name="wysiwyg-editor" rows="4" maxlength="150">{{old('wysiwyg-editor')}}</textarea>
+                <textarea class="ckeditor form-control" name="wysiwyg-editor" rows="4" maxlength="150">{{$news->body}}</textarea>
             </div>
 
             @if ($errors->any())
@@ -44,15 +43,15 @@
             @endif
 
             <div class="form-check form-switch mb-4">
-                <input class="form-check-input" type="checkbox" id="ispublish" @if(old('published_at')!=null) checked @endif>
-                <label class="form-check-label" for="">Yayınlansın mı ?</label>
+                <input class="form-check-input" type="checkbox" id="ispublish" @if($news->published_at)!=null) checked @endif>
+                <label class="form-check-label" for="">Yayınlansın mı ? </label>
             </div>
 
 
             <div class="form-outline mb-4 mt-4" id="datepicker" hidden>
                 <span> Yayınlanma tarihi :</span>
                 <input type="date" id="start" name="published_at"
-                       value="@if(old('published_at')!=null) {{old('published_at')}} @else {{\Carbon\Carbon::now()->toDateString()}} @endif"
+                       value="@if($news->published_at!=null){{\Carbon\Carbon::parse($news->published_at)->format('Y-m-d')}}@else {{\Carbon\Carbon::now()->toDateString()}} @endif"
                        min="{{\Carbon\Carbon::now()->toDateString()}}" max="2030-12-31">
             </div>
 
@@ -82,7 +81,7 @@
     <script>
         $( document ).ready(function() {
             if ($('.form-check-input').is(':checked')) {
-                $('#start').val('{{old('published_at')}}')
+                $('#start').val('{{\Carbon\Carbon::parse($news->published_at)->format('Y-m-d')}}')
                 $('#datepicker').attr("hidden",false);
             }else{
                 $('#datepicker').attr("hidden",true);

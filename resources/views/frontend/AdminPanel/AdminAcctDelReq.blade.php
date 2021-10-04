@@ -19,12 +19,17 @@
                 @foreach($DeleteAccountRequests as $DeleteAccountRequest)
                 <tr>
                     <th scope="row">{{$loop->iteration}}</th>
-                    <td class="text-center">{{$DeleteAccountRequest->User->username}}</td>
+                    <td class="text-center">@if(is_null($DeleteAccountRequest->user_id))
+                            Deleted_User
+                        @else
+                            {{$DeleteAccountRequest->user->username}}
+                        @endif
+                    </td>
                     <td class="text-center">{{$DeleteAccountRequest->body}}</td>
                     <td class="text-center"><span class="badge bg-primary">{{$DeleteAccountRequest->request_status}}</span></td>
                     <td class="text-center">{{$DeleteAccountRequest->answer}}</td>
                     <td>
-                        @if($DeleteAccountRequest->user_id == 1)
+                        @if($DeleteAccountRequest->request_status == "accepted")
 
                             <button type="button" class="btn btn-primary" disabled>
                                 İşlemi Bitir
