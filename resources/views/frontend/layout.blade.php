@@ -53,10 +53,10 @@
             <!-- Left links -->
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Haberler</a>
+                    <a class="nav-link" href="{{route('home')}}">Haberler</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Kategoriler</a>
+                    <a class="nav-link" href="{{route('IndexCategories')}}">Kategoriler</a>
                 </li>
                 @can('access admin panel')
                     <li class="nav-item">

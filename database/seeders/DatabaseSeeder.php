@@ -18,7 +18,7 @@ class DatabaseSeeder extends Seeder
             RolesSeeder::class,
         ]);
         \App\Models\User::factory(10)->create();
-        \App\Models\Category::factory(10)->create();
+        \App\Models\Category::factory(5)->create();
 
     }
 }

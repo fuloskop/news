@@ -33,15 +33,24 @@ Route::group(['middleware' => 'guest'], function () {
 //Route::post('/setrole', 'Admin\AdminController@updateRoles')->name('api.setrole');
 
 Route::group(['middleware' => 'auth'], function () {
-    Route::get('/', function () {
+   /* Route::get('/', function () {
         return view('frontend.home');
     })->name('home');
+   */
 
     Route::post('ckeditor/upload', 'CKEditorController@upload')->name('ckeditor.image-upload');
 
     Route::get('/logout','Auth\LoginController@logout')->name('logout');
     Route::get('/delaccount', 'DeleteAccountRequestController@create')->name('create.delacount');
     Route::post('/delaccount', 'DeleteAccountRequestController@store')->name('store.delacount');
+
+    Route::get('/', 'HomePage\NewsController@getAllPublishNews')->name('home');
+    Route::get('/news/{id}', 'HomePage\NewsController@getNewsById')->name('News.show');
+    Route::get('/categories','HomePage\NewsController@getAllCategories')->name('IndexCategories');
+    Route::get('/category/{id}','HomePage\NewsController@getNewsByCategoryId')->name('News.IndexByCategory');
+
+    Route::post('/comment','HomePage\CommentController@store')->name('Comment.store');
+    Route::post('/comment/{id}','HomePage\CommentController@destroy')->name('Comment.destroy');
 
     Route::group(['prefix' => 'editor','middleware' => ['role:admin|moderator|editor']], function () {
         Route::get('', 'Editor\EditorController@getEditorPanel')->name('EditorPanel');

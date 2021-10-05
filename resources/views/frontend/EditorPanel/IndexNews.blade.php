@@ -25,7 +25,7 @@
                         @else
                             {{$theNews->Author->username}}
                         @endif</td>
-                    <td class="text-center">{{$theNews->title}}</td>
+                    <td class="text-center">{!!   strlen($theNews->title)<50 ? $theNews->title : (substr($theNews->title, 0, 45)."...") !!}</td>
                     <td class="text-center">@if(is_null($theNews->published_at))
                             Yayınlanma tarihi yok.
                         @else

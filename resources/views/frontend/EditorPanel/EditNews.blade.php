@@ -19,6 +19,10 @@
                 </div>
             </div>
 
+            @hasanyrole('moderator|admin')
+                <input type="hidden" name="author_id" value="{{$news->author_id}}" />
+            @endhasanyrole
+
             <div class="form-outline mb-4 mt-4">
                 <input type="text" name="title" class="form-control" value="{{$news->title}}">
                 <label class="form-label" style="margin-left: 0px">Haber Başlığı :</label>

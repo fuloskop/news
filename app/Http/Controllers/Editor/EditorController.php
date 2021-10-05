@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Editor;
 
 use App\Business\Editor\EditorBusiness;
-use App\Models\News;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -101,20 +100,24 @@ class EditorController extends Controller
             'category_id' => 'required|exists:categories,id',
         ]);
 
-        $Editor = auth()->user();
+        $user = auth()->user();
+        if($user->hasAnyRole(['admin', 'moderator'])){
+            $Author_id = $request->author_id;
+        }
 
-        if(!$Editor->hasRole('admin')){ // tarihi geçen haber silmek için admin yetkisi gerekir.
+        if(!$user->hasRole('admin')){ // tarihi geçen haber silmek veya değiştirmek için admin yetkisi gerekir.
             $this->EditorBusiness->checkNewsEditable($this->EditorBusiness->getNewsById($id));
         }
 
-        if($Editor->hasRole('editor')){
-            $EditorCategories = $this->EditorBusiness->getEditorCategories($Editor);
+        if($user->hasRole('editor')){
+            $Author_id = $user->id;
+            $EditorCategories = $this->EditorBusiness->getEditorCategories($user);
             if(!$this->EditorBusiness->checkNewsCategoriesIsEditorsValidCategory($request->category_id,$EditorCategories)){
-                abort(403);
+                abort(403); //yetkisiz kategori denemesi
             }
         }
 
-        $this->EditorBusiness->updatenews($request->only('published_at','title','wysiwyg-editor','category_id'),$Editor->id,$id);
+        $this->EditorBusiness->updatenews($request->only('published_at','title','wysiwyg-editor','category_id'),$Author_id,$id);
         return redirect()->route('Editor.indexnews');
     }
 

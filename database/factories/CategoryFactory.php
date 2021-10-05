@@ -22,7 +22,7 @@ class CategoryFactory extends Factory
     public function definition()
     {
         return [
-            'name' => $this->faker->unique()->userName(),
+            'name' => $this->faker->unique()->lastName(),
         ];
     }
 }

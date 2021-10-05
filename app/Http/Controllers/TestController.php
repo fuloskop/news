@@ -15,7 +15,7 @@ class TestController extends Controller
     {
 
 
-        $user = User::find(13);
+        $user = auth()->user();
 
         //$user->categories()->attach(6);
 
@@ -32,6 +32,8 @@ class TestController extends Controller
 
         //$user->assignRole('user');
 
-        return $user->categories;
+
+
+        return $user->comments[0]->news;
     }
 }
