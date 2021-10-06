@@ -17,6 +17,7 @@ class CreateLogsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id')->nullable();
             $table->foreign('user_id')->references('id')->on('users')->nullOnDelete();
+            $table->string('role_type');
             $table->text('message');
             $table->enum('status', ['error', 'debug', 'warning', 'critical', 'info', 'activity']);
             $table->ipAddress('ip')->nullable();

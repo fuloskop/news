@@ -39,7 +39,7 @@ class TestController extends Controller
 
         //$user->assignRole('user');
 
-        getRoleTypeByUserId(1);
+
 
         return 1;
     }

@@ -131,7 +131,7 @@ class AdminBusiness
         $user = auth()->user();
         $activity =  $this->AdminRepository->getAllActivities();
 
-        return $activity->latest()->get();
+        return $activity->latest()->paginate(10);
     }
 
 }

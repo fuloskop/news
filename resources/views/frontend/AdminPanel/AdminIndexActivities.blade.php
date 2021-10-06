@@ -17,13 +17,13 @@
                 </thead>
                 <tbody>
                 @foreach($activities as $activity)
-                    @if(auth()->user()->hasrole('admin'))
+
                     <tr>
                         <th scope="row">{{$activity->id}}</th>
                         <td class="text-center">@if(is_null($activity->user_id))
                                 Deleted_User
                             @else
-                                {{$activity->user->username}}
+                                {{$activity->user->username}}({{$activity->role_type}})
                             @endif
                         </td>
                         <td class="text-center">{{$activity->message}}</td>
@@ -41,39 +41,13 @@
                         <td class="text-center">{{$activity->ip}}</td>
                         <td class="text-center">{{$activity->user_agent}}</td>
                     </tr>
-                    @else
-                        @if(getRoleTypeByUserId($activity->user_id)!='admin')
-                            <tr>
-                                <th scope="row">{{$activity->id}}</th>
-                                <td class="text-center">@if(is_null($activity->user_id))
-                                        Deleted_User
-                                    @else
-                                        {{$activity->user->username}}
-                                    @endif
-                                </td>
-                                <td class="text-center">{{$activity->message}}</td>
-                                <td class="text-center">
-                            <span class="badge
-                            @if($activity->status=="activity")
-                                bg-primary
-                            @elseif($activity->status=="info")
-                                bg-info
-                            @elseif($activity->status=="warning")
-                                bg-warning
-                            @else
-                                bg-danger
-                            @endif">{{$activity->status}}</span></td>
-                                <td class="text-center">{{$activity->ip}}</td>
-                                <td class="text-center">{{$activity->user_agent}}</td>
-                            </tr>
-                        @endif
-                    @endif
+
                 @endforeach
                 </tbody>
             </table>
 
             <br>
-
+            {{$activities->links("pagination::bootstrap-4")}}
         </div>
     </div>
 @endsection

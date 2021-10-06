@@ -9,7 +9,7 @@ class Log extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['user_id','message','status','ip','user_agent'];
+    protected $fillable = ['user_id','role_type','message','status','ip','user_agent'];
 
     public function User()
     {// 'App\Models\User'
