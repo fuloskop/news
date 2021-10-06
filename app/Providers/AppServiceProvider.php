@@ -2,6 +2,9 @@
 
 namespace App\Providers;
 
+use App\Logger\Base\Logger;
+use App\Logger\Contact\LoggerInterface;
+use App\Repositories\LogsRepository;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -13,7 +16,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->app->singleton(LoggerInterface::class,Logger::class);
     }
 
     /**
@@ -25,4 +28,6 @@ class AppServiceProvider extends ServiceProvider
     {
         //
     }
+
+
 }

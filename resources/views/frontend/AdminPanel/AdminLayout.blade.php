@@ -18,9 +18,14 @@
             <a href="{{route('AdminChangeEditorCateg.index')}}" class="nav-link text-center">
                 Yazarlara Kategori Atama
             </a>
-            <a href="" class="nav-link text-center">
-                Kullanıcı takibi (log)
+            <a href="{{route('Activities.index')}}" class="nav-link text-center">
+                Kullanıcı Aktivite Takibi
             </a>
+            @can('access logs')
+            <a href="{{route('Logs.index')}}" class="nav-link text-center">
+                Logs
+            </a>
+            @endcan
 
         </div>
 

@@ -3,13 +3,13 @@
 namespace App\Business\Admin;
 
 use App\Models\User;
-use Illuminate\Support\Facades\Hash;
 use App\Repositories\Admin\AdminRepository;
 
 
 class AdminBusiness
 {
     protected $AdminRepository;
+    protected $logger;
 
     public function __construct(AdminRepository $AdminRepository)
     {
@@ -38,10 +38,21 @@ class AdminBusiness
             $data = array_merge($data, ['user_id' => 1]);
         }
         */
+        $RequestToEnded =  $this->getAccountDeleteRequestById($id);
+        if($data['request_status']=='accepted'){
+            $DeleteUser =$this->getUsersById($RequestToEnded->user_id);
+            $data['answer'] = $data['answer']." Username = $DeleteUser->username";
+            $this->AdminRepository->getAccountDeleteRequestEnd($RequestToEnded,$data);
+            $this->destroyUser($DeleteUser);
+        }else{
+            $this->AdminRepository->getAccountDeleteRequestEnd($RequestToEnded,$data);
+        }
 
-       $this->AdminRepository->getAccountDeleteRequestEnd($data,$id);
-        //dd($DeleteAccountRequest);
+    }
 
+    public function destroyUser(User $user)
+    {
+        $this->AdminRepository->DestroyUser($user);
     }
 
     public function getUsersById($id)
@@ -56,10 +67,7 @@ class AdminBusiness
 
     public function isEditor(User $user)
     {
-        if(!$user->hasRole('editor')){
-            return false;
-        }
-        return true;
+        return $user->hasRole('editor');
     }
 
     public function getAllCategories()
@@ -82,4 +90,48 @@ class AdminBusiness
         $category = $this->getCategoryById($id);
         $this->AdminRepository->DestroyCategory($category);
     }
+
+    public function assignRole($id,$role)
+    {
+        $user = $this->getUsersById($id);
+        $this->AdminRepository->assignRole($user,$role);
+    }
+
+    public function removeRole($id,$role)
+    {
+        $user = $this->getUsersById($id);
+        $this->AdminRepository->removeRole($user,$role);
+        $this->removeAllCategories($user);
+    }
+
+    public function removeAllCategories($user)
+    {
+        $this->AdminRepository->detachCategories($user);
+    }
+
+    public function assignCategory($id,$category_id)
+    {
+        $user = $this->getUsersById($id);
+        $this->AdminRepository->attachCategory($user,$category_id);
+    }
+
+    public function removeCategory($id,$category_id)
+    {
+        $user = $this->getUsersById($id);
+        $this->AdminRepository->detachCategory($user,$category_id);
+    }
+
+    public function getAllLogs()
+    {
+        return $this->AdminRepository->getAllLogs();
+    }
+
+    public function getAllActivities()
+    {
+        $user = auth()->user();
+        $activity =  $this->AdminRepository->getAllActivities();
+
+        return $activity->latest()->get();
+    }
+
 }

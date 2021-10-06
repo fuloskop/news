@@ -27,6 +27,7 @@ class RolesSeeder extends Seeder
         Permission::create(['name' => 'access editor panel']);
         Permission::create(['name' => 'create news']);
         Permission::create(['name' => 'manage comments']);
+        Permission::create(['name' => 'access logs']);
 
 
         $admin_role = Role::create(['name' => 'admin']);
@@ -38,6 +39,8 @@ class RolesSeeder extends Seeder
         $admin_role->givePermissionTo('access editor panel');
         $admin_role->givePermissionTo('create news');
         $admin_role->givePermissionTo('manage comments');
+        $admin_role->givePermissionTo('access logs');
+
 
         $mod_role = Role::create(['name' => 'moderator']);
         $mod_role->givePermissionTo('can comment');

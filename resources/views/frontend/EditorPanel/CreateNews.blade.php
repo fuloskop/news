@@ -75,6 +75,8 @@
     </script>
     <script type="text/javascript">
         CKEDITOR.replace('wysiwyg-editor', {
+            removePlugins: 'sourcearea',
+            removeButtons: 'Source',
             filebrowserUploadUrl: "{{route('ckeditor.image-upload', ['_token' => csrf_token() ])}}",
             filebrowserUploadMethod: 'form'
         });

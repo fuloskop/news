@@ -77,7 +77,8 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('editcategory/{id}', 'Admin\AdminController@editCategory')->name('Category.edit');
         Route::post('editcategory/{id}', 'Admin\AdminController@updateCategory')->name('Category.update');
         Route::get('destroycategory/{id}', 'Admin\AdminController@destroyCategory')->name('Category.destroy');
-
+        Route::get('indexlogs', 'Admin\AdminController@getAllLogs')->name('Logs.index');
+        Route::get('indexactivities', 'Admin\AdminController@getAllActivities')->name('Activities.index');
     });
 });
 

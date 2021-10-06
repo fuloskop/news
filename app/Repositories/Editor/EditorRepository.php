@@ -2,17 +2,18 @@
 
 namespace App\Repositories\Editor;
 
+use App\Logger\Contact\LoggerInterface;
 use App\Models\Category;
 use App\Models\News;
 use App\Models\User;
 
 class EditorRepository
 {
-    protected $user;
+    protected $logger;
 
-    public function __construct(User $user)
+    public function __construct(LoggerInterface $logger)
     {
-        $this->user = $user;
+        $this->logger = $logger;
     }
 
     public function  getEditorCategories(User $user)
@@ -32,11 +33,13 @@ class EditorRepository
 
     public function storenews($data)
     {
+        $this->logger->info('New news created');
         News::create($data);
     }
 
     public function updatenews($data,News $news)
     {
+        $this->logger->info('Updated category');
         $news->update($data);
     }
 
@@ -60,6 +63,7 @@ class EditorRepository
 
     public function destroyNews(News $news)
     {
+        $this->logger->info('Deleted news');
         $news->delete();
     }
 

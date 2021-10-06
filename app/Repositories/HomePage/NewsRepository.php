@@ -2,19 +2,19 @@
 
 namespace App\Repositories\HomePage;
 
+use App\Logger\Contact\LoggerInterface;
 use App\Models\Category;
 use App\Models\Comment;
 use App\Models\News;
 use App\Models\User;
-use function GuzzleHttp\Promise\all;
 
 class NewsRepository
 {
-    protected $News;
+    protected $logger;
 
-    public function __construct(News $News)
+    public function __construct(LoggerInterface $logger)
     {
-        $this->News = $News;
+        $this->logger = $logger;
     }
 
     public function getAllPublishNews()
@@ -41,6 +41,7 @@ class NewsRepository
 
     public function storecomment($data)
     {
+        $this->logger->info('New comment created');
         Comment::create($data);
     }
 
@@ -51,6 +52,7 @@ class NewsRepository
 
     public function destroyComment(Comment $comment)
     {
+        $this->logger->info('Deleted comment');
         $comment->delete();
     }
 }

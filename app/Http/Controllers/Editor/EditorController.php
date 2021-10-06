@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Editor;
 
 use App\Business\Editor\EditorBusiness;
+use App\Logger\Contact\LoggerInterface;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -10,20 +11,24 @@ class EditorController extends Controller
 {
 
     private $EditorBusiness;
+    private $logger;
 
-    public function __construct(EditorBusiness $EditorBusiness)
+    public function __construct(EditorBusiness $EditorBusiness,LoggerInterface $logger)
     {
         $this->EditorBusiness = $EditorBusiness;
+        $this->logger = $logger;
     }
 
 
     public function getEditorPanel()
     {
+        $this->logger->activity('Access editor panel');
         return view('frontend.EditorPanel.EditorPanel');
     }
 
     public function createnews()
     {
+        $this->logger->activity('Access editor panel new create page');
         $user = auth()->user();
 
         $AvailableCategories = $this->EditorBusiness->getAllCategories(); // tüm kategorileri getir eğer aşağıda editörlüğü doğrulanmazsa diye
@@ -43,14 +48,17 @@ class EditorController extends Controller
             'wysiwyg-editor' => 'required|string',
             'category_id' => 'required|exists:categories,id',
         ]);
+        $this->logger->activity('Access editor panel save new news');
 
         $Editor = auth()->user();
         if($Editor->hasRole('editor')){
             $EditorCategories = $this->EditorBusiness->getEditorCategories($Editor);
             if(!$this->EditorBusiness->checkNewsCategoriesIsEditorsValidCategory($request->category_id,$EditorCategories)){
+                $this->logger->warning('Editor detected trying to create news in unauthorized category');
                 abort(403);
             }
         }
+
         $this->EditorBusiness->storenews($request->only('published_at','title','wysiwyg-editor','category_id'),$Editor->id);
 
 
@@ -59,6 +67,7 @@ class EditorController extends Controller
 
     public function indexnews()
     {
+        $this->logger->activity('Access editor panel news list');
         $User = auth()->user();
         if($User->hasAnyRole(['admin', 'moderator'])){
             $news = $this->EditorBusiness->getNewsAll();
@@ -71,6 +80,7 @@ class EditorController extends Controller
 
     public function editnews($id)
     {
+        $this->logger->activity('Access editor panel edit news');
         $news = $this->EditorBusiness->getNewsById($id);
 
         $User = auth()->user();
@@ -88,6 +98,7 @@ class EditorController extends Controller
             $Categories = $this->EditorBusiness->getAllCategories();
             return view('frontend.EditorPanel.EditNews',compact('news','Categories'));
         }
+        $this->logger->warning('Unauthorized user detected trying to change news');
         abort(403);
     }
 
@@ -99,6 +110,8 @@ class EditorController extends Controller
             'wysiwyg-editor' => 'required|string',
             'category_id' => 'required|exists:categories,id',
         ]);
+
+        $this->logger->activity('Access editor panel update news');
 
         $user = auth()->user();
         if($user->hasAnyRole(['admin', 'moderator'])){
@@ -113,6 +126,7 @@ class EditorController extends Controller
             $Author_id = $user->id;
             $EditorCategories = $this->EditorBusiness->getEditorCategories($user);
             if(!$this->EditorBusiness->checkNewsCategoriesIsEditorsValidCategory($request->category_id,$EditorCategories)){
+                $this->logger->warning('Editor detected trying to create news in unauthorized category');
                 abort(403); //yetkisiz kategori denemesi
             }
         }
