@@ -23,7 +23,10 @@ class TestController extends Controller
 
         //$user->categories()->attach(6);
 
+        $user = auth()->user();
 
+        //$user->subCategories()->attach(1);
+       // $user->subCategories()->attach(2);
 
         //$admin = "admin";
         //$user->assignRole($admin);
@@ -39,8 +42,14 @@ class TestController extends Controller
 
         //$user->assignRole('user');
 
+        $arrayistenen = ['user', 'editor'];
+
+        $subcategoryidarray = array();
+        foreach ($user->subCategories as $subCategory){
+            $subcategoryidarray[] = $subCategory->pivot->category_id;
+        }
 
 
-        return 1;
+        return $subcategoryidarray;
     }
 }

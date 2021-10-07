@@ -56,6 +56,9 @@
                     <a class="nav-link" href="{{route('home')}}">Haberler</a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link" href="{{route('specialnews')}}">Bana Göre Haberler</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" href="{{route('IndexCategories')}}">Kategoriler</a>
                 </li>
                 @can('access admin panel')

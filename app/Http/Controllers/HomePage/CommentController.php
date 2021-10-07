@@ -36,12 +36,15 @@ class CommentController extends Controller
     public function destroy($id)
     {
         $comment = $this->NewsBusiness->getCommentById($id);
+
         $user = auth()->user();
 
         if($comment->user_id == $user->id || $user->hasAnyRole(['admin', 'moderator'])){
             $this->logger->activity("delete comment form this user $comment->user_id");
             $this->NewsBusiness->destroyCommentById($id);
+            return redirect()->route('News.show',$comment->news_id);
         }
+        $this->logger->warning('Unauthorized user detected trying to delete comment');
         abort(403,'Yorumu silmek için gerekli yetkilere sahip değilsiniz.');
     }
 }

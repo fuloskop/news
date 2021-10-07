@@ -18,7 +18,7 @@ class NewsBusiness
     public function getAllPublishNews()
     {
         $news = $this->NewsRepository->getAllPublishNews();
-        return $news->paginate(10);
+        return $news->latest()->paginate(10);
     }
 
     public function getNewsById($id)
@@ -35,7 +35,7 @@ class NewsBusiness
     {
         $news = $this->NewsRepository->getAllPublishNews();
         $news = $this->NewsRepository->filterNewsByCategory($news,$id);
-        return $news->paginate(10);
+        return $news->latest()->paginate(10);
     }
 
     public function storecomment($data,$user_id)
@@ -53,6 +53,16 @@ class NewsBusiness
     {
         $comment = $this->getCommentById($id);
         $this->NewsRepository->destroyComment($comment);
+
+    }
+
+    public function getAllPublishNewsBySubCategories($user)
+    {
+        $subcategoryarray = array();
+        foreach ($user->subCategories as $subCategory){
+            $subcategoryarray[] = $subCategory->pivot->category_id;
+        }
+        return $this->NewsRepository->filterNewsBySubCategories($subcategoryarray)->latest()->paginate(10);
 
     }
 }

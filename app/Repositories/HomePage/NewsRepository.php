@@ -55,4 +55,9 @@ class NewsRepository
         $this->logger->info('Deleted comment');
         $comment->delete();
     }
+
+    public function filterNewsBySubCategories($subCategArray)
+    {
+        return News::where('published_at', '<', now())->whereIn('category_id', $subCategArray)->with('author');
+    }
 }

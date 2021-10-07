@@ -35,14 +35,24 @@ class NewsController extends Controller
     public function getAllCategories()
     {
         $this->logger->activity("User open all news categories");
+        $userSubCategories = auth()->user()->subCategories;
         $categories = $this->NewsBusiness->getAllCategories();
-        return view('frontend.HomePage.IndexCategories',compact('categories'));
+        return view('frontend.HomePage.IndexCategories',compact('categories','userSubCategories'));
     }
 
     public function getNewsByCategoryId($category_Id)
     {
         $this->logger->activity("User open all news from this category id $category_Id");
         $news = $this->NewsBusiness->getAllPublishNewsByCategory($category_Id);
+
+        return view('frontend.HomePage.IndexNews',compact('news'));
+    }
+
+    public function getNewsBySubCategories()
+    {
+        $user = auth()->user();
+        $this->logger->activity("User open all news special flow");
+        $news = $this->NewsBusiness->getAllPublishNewsBySubCategories($user);
 
         return view('frontend.HomePage.IndexNews',compact('news'));
     }

@@ -59,6 +59,18 @@ class User extends Authenticatable
 
     }
 
+    public function subCategories()
+    {
+        //return $this->belongsToMany(RelatedModel, pivot_table_name, foreign_key_of_current_model_in_pivot_table, foreign_key_of_other_model_in_pivot_table);
+
+        return $this->belongsToMany(
+            Category::class,
+            'subcategories_users',
+            'user_id',
+            'category_id');
+
+    }
+
     public function comments()
     {
         return $this->hasMany(Comment::class);

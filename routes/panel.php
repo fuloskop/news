@@ -18,5 +18,7 @@ Route::group(['middleware' => 'auth','prefix' => 'api/v1'], function () {
         Route::post('/setrole', 'Admin\AdminController@updateRoles')->name('api.setrole');
         Route::post('/seteditorcateg', 'Admin\AdminController@setEditorCategory')->name('api.seteditorcateg');
     });
+
+    Route::post('/setsubcateg', 'HomePage\SubCategoryController@updateSubCategory')->name('api.setsubcateg');
 });
 

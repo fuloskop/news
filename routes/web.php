@@ -45,12 +45,13 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/delaccount', 'DeleteAccountRequestController@store')->name('store.delacount');
 
     Route::get('/', 'HomePage\NewsController@getAllPublishNews')->name('home');
+    Route::get('/specialnews', 'HomePage\NewsController@getNewsBySubCategories')->name('specialnews');
     Route::get('/news/{id}', 'HomePage\NewsController@getNewsById')->name('News.show');
     Route::get('/categories','HomePage\NewsController@getAllCategories')->name('IndexCategories');
     Route::get('/category/{id}','HomePage\NewsController@getNewsByCategoryId')->name('News.IndexByCategory');
 
     Route::post('/comment','HomePage\CommentController@store')->name('Comment.store');
-    Route::post('/comment/{id}','HomePage\CommentController@destroy')->name('Comment.destroy');
+    Route::get('/comment/{id}','HomePage\CommentController@destroy')->name('Comment.destroy');
 
     Route::group(['prefix' => 'editor','middleware' => ['role:admin|moderator|editor']], function () {
         Route::get('', 'Editor\EditorController@getEditorPanel')->name('EditorPanel');

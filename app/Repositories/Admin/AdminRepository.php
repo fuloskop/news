@@ -128,7 +128,6 @@ class AdminRepository
         if (auth()->user()->hasRole('admin')) {
             return Log::where('status', 'activity');
         } else if (auth()->user()->hasRole('moderator')) {
-            $match = ['status' => 'activity', 'role_type' => 'user'];
             return Log::where('status' , 'activity')->whereIn('role_type', ['user', 'editor']);
         }
     }
