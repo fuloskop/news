@@ -4,7 +4,9 @@ namespace Database\Seeders;
 
 use App\Models\RoleUser;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use Illuminate\Testing\Fluent\Concerns\Has;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\PermissionRegistrar;
@@ -64,7 +66,7 @@ class RolesSeeder extends Seeder
         $user = \App\Models\User::factory()->create([
             'username' => 'fuloskop',
             'email' => 'muvaffaki@hotmail.com',
-            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
+            'password' => Hash::make('password'), // password
         ]);
         $user->assignRole($admin_role);
     }

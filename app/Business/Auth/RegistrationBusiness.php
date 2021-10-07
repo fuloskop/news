@@ -31,6 +31,7 @@ class RegistrationBusiness
 
     public function store($data)
     {
+
         $data['password'] =  $this->hashpassword($data['password']);
         $this->giveuserperm($this->RegistrationRepository->store($data));
 
