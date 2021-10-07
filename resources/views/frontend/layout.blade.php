@@ -55,9 +55,11 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{{route('home')}}">Haberler</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{route('specialnews')}}">Bana Göre Haberler</a>
-                </li>
+                @if (count(auth()->user()->subCategories) > 0)
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{route('specialnews')}}">Bana Göre Haberler</a>
+                    </li>
+                @endif
                 <li class="nav-item">
                     <a class="nav-link" href="{{route('IndexCategories')}}">Kategoriler</a>
                 </li>
