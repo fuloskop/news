@@ -32,7 +32,7 @@
                             {{  Carbon\Carbon::parse($theNews->published_at)->diffForHumans()}}
                         @endif</td>
                     <td class="text-center">
-                        @if((isset($theNews->published_at) && \Carbon\Carbon::yesterday() > \Carbon\Carbon::parse($theNews->published_at)) && !auth()->user()->hasrole('admin') )
+                        @if((isset($theNews->published_at) && \Carbon\Carbon::yesterday() > \Carbon\Carbon::parse($theNews->published_at)) && !auth()->user()->hasPermissionTo('manage old news') )
 
                             <button type="button" class="btn btn-primary" disabled>
                                 Haber Düzenle

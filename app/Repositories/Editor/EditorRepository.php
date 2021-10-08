@@ -26,10 +26,6 @@ class EditorRepository
         return Category::all();
     }
 
-    public function  checkEditorRole(User $Editor)
-    {
-        return $Editor->hasRole('editor');
-    }
 
     public function storenews($data)
     {

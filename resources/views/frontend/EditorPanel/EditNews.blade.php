@@ -19,9 +19,10 @@
                 </div>
             </div>
 
-            @hasanyrole('moderator|admin')
+            <!--  Tüm haberleri yönetme yetkisi varsa yazarı gönderir -->
+            @can('access all news')
                 <input type="hidden" name="author_id" value="{{$news->author_id}}" />
-            @endhasanyrole
+            @endcan
 
             <div class="form-outline mb-4 mt-4">
                 <input type="text" name="title" class="form-control" value="{{$news->title}}">

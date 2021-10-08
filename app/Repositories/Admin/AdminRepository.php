@@ -125,9 +125,9 @@ class AdminRepository
 
     public function getAllActivities()
     {
-        if (auth()->user()->hasRole('admin')) {
+        if (auth()->user()->hasPermissionTo('access all activities')) {
             return Log::where('status', 'activity');
-        } else if (auth()->user()->hasRole('moderator')) {
+        } else if (auth()->user()->hasPermissionTo('access user and editor activities')) {
             return Log::where('status' , 'activity')->whereIn('role_type', ['user', 'editor']);
         }
     }

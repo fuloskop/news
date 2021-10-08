@@ -41,15 +41,16 @@ class TestController extends Controller
         //$editor_role = Role::create(['name' => 'editor']);
 
         //$user->assignRole('user');
-
+/*
         $arrayistenen = ['user', 'editor'];
 
         $subcategoryidarray = array();
         foreach ($user->subCategories as $subCategory){
             $subcategoryidarray[] = $subCategory->pivot->category_id;
         }
+**/
+        $roles = $user->getAllPermissions();
 
-
-        return $subcategoryidarray;
+        return $roles;
     }
 }

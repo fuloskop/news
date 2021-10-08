@@ -93,7 +93,7 @@ class AdminController extends Controller
 
         $this->logger->activity('Access admin panel update roles api');
 
-        if(auth()->user()->hasRole('moderator') && $request->roletype!='editor'){
+        if(!auth()->user()->hasPermissionTo('give admin and moderator permission') && $request->roletype!='editor'){
             $this->logger->warning('Unauthorized user detected trying to change role');
             return [
                 'status' => 403,
@@ -166,14 +166,13 @@ class AdminController extends Controller
     {
         $this->logger->activity("Access admin panel editor caregories page");
         $user = $this->AdminBusiness->getUsersById($id);
-        if($this->AdminBusiness->isEditor($user)){
-            $AllCategories = $this->AdminBusiness->getAllCategories();
-
-            return view('frontend.AdminPanel.AdminChangeEditorCategoriesShow',compact('user','AllCategories'));
+        if(!$user->hasRole('editor')){
+            $this->logger->warning('Unauthorized user detected trying to access editor categories change page ');
+            abort(404);
         }
+        $AllCategories = $this->AdminBusiness->getAllCategories();
 
-        abort(404);
-
+        return view('frontend.AdminPanel.AdminChangeEditorCategoriesShow',compact('user','AllCategories'));
     }
 
     public function setEditorCategory(Request $request)
@@ -186,7 +185,7 @@ class AdminController extends Controller
 
         $this->logger->activity('Access admin panel update editor category api');
 
-        if(!auth()->user()->hasRole('moderator') && !auth()->user()->hasRole('admin')){
+        if(!auth()->user()->hasPermissionTo('manage editor categories')){
             $this->logger->warning('Unauthorized user detected trying to change editor category');
             return [
                 'status' => 403,

@@ -3,6 +3,9 @@
 
 @section('admincontect')
     <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
+        <span class="text-warning text-center d-block">
+            (Lütfen sadece bir tane yetki seçimi yapın bir kullanıcının iki veya daha fazla yetkisi olmasın)
+        </span>
         <div class="panel-body">
             <table class="table table-striped">
                 <thead>

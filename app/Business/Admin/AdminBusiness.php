@@ -65,11 +65,6 @@ class AdminBusiness
         return $this->AdminRepository->getAllEditorUsers();
     }
 
-    public function isEditor(User $user)
-    {
-        return $user->hasRole('editor');
-    }
-
     public function getAllCategories()
     {
         return $this->AdminRepository->getAllCategories();

@@ -28,15 +28,6 @@ class EditorBusiness
     {
         return $this->EditorRepository->getAllCategories();
     }
-    public function isValidEditor($user)
-    {
-        return $this->EditorRepository->checkEditorRole($user);
-    }
-
-    public function checkEditorsCategories($user)
-    {
-        return $this->EditorRepository->checkEditorRole($user);
-    }
 
     public function checkNewsCategoriesIsEditorsValidCategory($id,$editorValidCategories)
     {

@@ -33,7 +33,7 @@ class EditorController extends Controller
 
         $AvailableCategories = $this->EditorBusiness->getAllCategories(); // tüm kategorileri getir eğer aşağıda editörlüğü doğrulanmazsa diye
 
-        if($this->EditorBusiness->isValidEditor($user)){ //$user->hasRole('editor')
+        if(!$user->hasPermissionTo('create news without category')){ //$user->hasRole('editor')
             $AvailableCategories = $this->EditorBusiness->getEditorCategories($user);
         }
 
@@ -51,7 +51,7 @@ class EditorController extends Controller
         $this->logger->activity('Access editor panel save new news');
 
         $Editor = auth()->user();
-        if($Editor->hasRole('editor')){
+        if(!$Editor->hasPermissionTo('create news without category')){
             $EditorCategories = $this->EditorBusiness->getEditorCategories($Editor);
             if(!$this->EditorBusiness->checkNewsCategoriesIsEditorsValidCategory($request->category_id,$EditorCategories)){
                 $this->logger->warning('Editor detected trying to create news in unauthorized category');
@@ -69,7 +69,7 @@ class EditorController extends Controller
     {
         $this->logger->activity('Access editor panel news list');
         $User = auth()->user();
-        if($User->hasAnyRole(['admin', 'moderator'])){
+        if($User->hasPermissionTo('access all news')){
             $news = $this->EditorBusiness->getNewsAll();
             // News::with('author')->get();
             return view('frontend.EditorPanel.IndexNews',compact('news'));
@@ -85,7 +85,7 @@ class EditorController extends Controller
 
         $User = auth()->user();
 
-        if(!$User->hasRole('admin')){ // tarihi geçen haber silmek için admin yetkisi gerekir.
+        if(!$User->hasPermissionTo('manage old news')){ // tarihi geçen haber silmek için admin yetkisi gerekir.
             $this->EditorBusiness->checkNewsEditable($news);
         }
 
@@ -94,7 +94,7 @@ class EditorController extends Controller
             $Categories = $this->EditorBusiness->getEditorCategories($User);
             return view('frontend.EditorPanel.EditNews',compact('news','Categories'));
 
-        }elseif ($User->hasAnyRole(['admin', 'moderator'])) {
+        }elseif ($User->hasPermissionTo('access all categories')) {
             $Categories = $this->EditorBusiness->getAllCategories();
             return view('frontend.EditorPanel.EditNews',compact('news','Categories'));
         }
@@ -114,15 +114,15 @@ class EditorController extends Controller
         $this->logger->activity('Access editor panel update news');
 
         $user = auth()->user();
-        if($user->hasAnyRole(['admin', 'moderator'])){
+        if($user->hasPermissionTo('access all news')){
             $Author_id = $request->author_id;
         }
 
-        if(!$user->hasRole('admin')){ // tarihi geçen haber silmek veya değiştirmek için admin yetkisi gerekir.
+        if(!$user->hasPermissionTo('manage old news')){ // tarihi geçen haber silmek veya değiştirmek için admin yetkisi gerekir.
             $this->EditorBusiness->checkNewsEditable($this->EditorBusiness->getNewsById($id));
         }
 
-        if($user->hasRole('editor')){
+        if(!$user->hasPermissionTo('access all news')){
             $Author_id = $user->id;
             $EditorCategories = $this->EditorBusiness->getEditorCategories($user);
             if(!$this->EditorBusiness->checkNewsCategoriesIsEditorsValidCategory($request->category_id,$EditorCategories)){
@@ -138,7 +138,7 @@ class EditorController extends Controller
     public function destroyNews($id)
     {
         $User = auth()->user();
-        if(!$User->hasRole('admin')){ // tarihi geçen haber silmek için admin yetkisi gerekir.
+        if(!$User->hasPermissionTo('manage old news')){ // tarihi geçen haber silmek için admin yetkisi gerekir.
             $this->EditorBusiness->checkNewsEditable($this->EditorBusiness->getNewsById($id));
         }
         $this->EditorBusiness->findDestroyNews($id);
