@@ -6,6 +6,7 @@ use App\Business\Admin\AdminBusiness;
 use App\Logger\Contact\LoggerInterface;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Validator;
 
 class AdminController extends Controller
@@ -224,5 +225,24 @@ class AdminController extends Controller
     {
         $activities = $this->AdminBusiness->getAllActivities();
         return view('frontend.AdminPanel.AdminIndexActivities',compact('activities'));
+    }
+
+    public function getMaintenancePage()
+    {
+        $MaintenanceMode = app()->isDownForMaintenance() ;
+        return view('frontend.AdminPanel.AdminMaintenance',compact('MaintenanceMode'));
+    }
+
+    public function setMaintenanceMode(Request $request)
+    {
+        $validated = $request->validate([
+            'mode' => 'required|boolean',
+        ]);
+        if($request->mode){
+            Artisan::call('down');
+        }else{
+            Artisan::call('up');
+        }
+        return redirect()->route('Maintenance.show');
     }
 }

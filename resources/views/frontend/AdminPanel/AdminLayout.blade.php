@@ -27,7 +27,7 @@
             </a>
             @endcan
             @can('start stop maintenance')
-                <a href="{{route('Logs.index')}}" class="nav-link text-center">
+                <a href="{{route('Maintenance.show')}}" class="nav-link text-center">
                     Bakım Modu
                 </a>
             @endcan

@@ -23,6 +23,10 @@ Route::get('/home', function () {
 
 Route::get('test', 'TestController@test');
 
+Route::get('/maintenance', function () {
+    return view('frontend.errors.Maintenance');
+})->name('maintenance');
+
 Route::group(['middleware' => 'guest'], function () {
     Route::get('register', 'Auth\RegistrationController@index')->name('register.index');
     Route::post('register', 'Auth\RegistrationController@store')->name('register.store');
@@ -80,6 +84,8 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('destroycategory/{id}', 'Admin\AdminController@destroyCategory')->name('Category.destroy');
         Route::get('indexlogs', 'Admin\AdminController@getAllLogs')->name('Logs.index');
         Route::get('indexactivities', 'Admin\AdminController@getAllActivities')->name('Activities.index');
+        Route::get('maintenance', 'Admin\AdminController@getMaintenancePage')->name('Maintenance.show');
+        Route::post('maintenance', 'Admin\AdminController@setMaintenanceMode')->name('Maintenance.set');
     });
 });
 

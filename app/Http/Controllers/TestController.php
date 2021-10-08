@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Logger\Contact\LoggerInterface;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Artisan;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 
@@ -16,14 +17,17 @@ class TestController extends Controller
         $this->logger = $logger;
     }
 
-    public function test()
+    public function test(Request $request)
     {
+
+        //Artisan::call('down');
+
 
         //$this->logger->error('deneme');
 
         //$user->categories()->attach(6);
 
-        $user = auth()->user();
+        //$user = auth()->user();
 
         //$user->subCategories()->attach(1);
        // $user->subCategories()->attach(2);
@@ -50,7 +54,13 @@ class TestController extends Controller
         }
 **/
         //$roles = $user->getAllPermissions();
+        //dd($request->is('test'));
 
-        return 1;
+
+        if(auth()->user()){
+            return 1;
+        }
+
+        return 2;
     }
 }
