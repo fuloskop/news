@@ -36,6 +36,7 @@ class RolesSeeder extends Seeder
         Permission::create(['name' => 'access all news']);
         Permission::create(['name' => 'access all categories']);
         Permission::create(['name' => 'manage old news']);
+        Permission::create(['name' => 'start stop maintenance']);
 
         $user_role = Role::create(['name' => 'user']);
 
@@ -64,6 +65,7 @@ class RolesSeeder extends Seeder
         $admin_role->givePermissionTo('access all activities');
         $admin_role->givePermissionTo('access logs');
         $admin_role->givePermissionTo('manage old news');
+        $admin_role->givePermissionTo('start stop maintenance');
 
 
 

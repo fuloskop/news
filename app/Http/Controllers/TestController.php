@@ -30,14 +30,14 @@ class TestController extends Controller
 
         //$admin = "admin";
         //$user->assignRole($admin);
-
+        //Permission::create(['name' => 'start stop maintenance']);
         //$role = Role::create(['name' => 'user']);
         //$permission = Permission::create(['name' => 'can comment']);
         //$role->givePermissionTo($permission);
         //$role = Role::findByName('admin');
         //$permission = Permission::create(['name' => 'access logs']);
         //$role->givePermissionTo('edit articles');
-
+        //$role->givePermissionTo('start stop maintenance');
         //$editor_role = Role::create(['name' => 'editor']);
 
         //$user->assignRole('user');
@@ -49,8 +49,8 @@ class TestController extends Controller
             $subcategoryidarray[] = $subCategory->pivot->category_id;
         }
 **/
-        $roles = $user->getAllPermissions();
+        //$roles = $user->getAllPermissions();
 
-        return $roles;
+        return 1;
     }
 }
