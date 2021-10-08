@@ -57,6 +57,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/comment','HomePage\CommentController@store')->name('Comment.store');
     Route::get('/comment/{id}','HomePage\CommentController@destroy')->name('Comment.destroy');
 
+    Route::get('/oldnews','HomePage\NewsController@getNewsByUserRead')->name('Oldnews.index');
+    Route::get('/mycomments','HomePage\CommentController@getUserComments')->name('Comments.index');
+
     Route::group(['prefix' => 'editor','middleware' => ['role:admin|moderator|editor']], function () {
         Route::get('', 'Editor\EditorController@getEditorPanel')->name('EditorPanel');
         Route::get('indexnews', 'Editor\EditorController@indexnews')->name('Editor.indexnews');

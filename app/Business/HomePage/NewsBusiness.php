@@ -65,4 +65,9 @@ class NewsBusiness
         return $this->NewsRepository->filterNewsBySubCategories($subcategoryarray)->latest()->paginate(10);
 
     }
+
+    public function getNewsByUserRead($user)
+    {
+        return $this->NewsRepository->getNewsByUserRead($user->id)->latest()->paginate(10);
+    }
 }

@@ -56,4 +56,13 @@ class NewsController extends Controller
 
         return view('frontend.HomePage.IndexNews',compact('news'));
     }
+
+    public function getNewsByUserRead()
+    {
+        $user = auth()->user();
+        $this->logger->activity("User opened the page of the news he or she read");
+        $logs = $this->NewsBusiness->getNewsByUserRead($user);
+
+        return view('frontend.HomePage.IndexOldNews',compact('logs'));
+    }
 }

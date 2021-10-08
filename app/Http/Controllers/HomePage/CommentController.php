@@ -47,4 +47,11 @@ class CommentController extends Controller
         $this->logger->warning('Unauthorized user detected trying to delete comment');
         abort(403,'Yorumu silmek için gerekli yetkilere sahip değilsiniz.');
     }
+
+    public function getUserComments()
+    {
+        $user = auth()->user();
+        $comments = $user->comments;
+        return view('frontend.HomePage.IndexMyComment',['comments' => $comments]);
+    }
 }

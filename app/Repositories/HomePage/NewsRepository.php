@@ -5,6 +5,7 @@ namespace App\Repositories\HomePage;
 use App\Logger\Contact\LoggerInterface;
 use App\Models\Category;
 use App\Models\Comment;
+use App\Models\Log;
 use App\Models\News;
 use App\Models\User;
 
@@ -59,5 +60,10 @@ class NewsRepository
     public function filterNewsBySubCategories($subCategArray)
     {
         return News::where('published_at', '<', now())->whereIn('category_id', $subCategArray)->with('author');
+    }
+
+    public function getNewsByUserRead($user_id)
+    {
+        return Log::where('user_id',  $user_id)->where('message', 'like', '%'. 'User open this news'.'%');
     }
 }

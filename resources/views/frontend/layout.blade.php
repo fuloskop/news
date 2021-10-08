@@ -100,10 +100,7 @@
                     <a class="dropdown-item" href="{{route('create.delacount')}}">Delete Account</a>
                 </li>
                 <li>
-                    <a class="dropdown-item" href="#">My profile</a>
-                </li>
-                <li>
-                    <a class="dropdown-item" href="#">Settings</a>
+                    <a class="dropdown-item" href="{{route('Oldnews.index')}}">Aktivitelerim</a>
                 </li>
                 <li>
                     <a class="dropdown-item" href="{{route('logout')}}">Logout</a>
