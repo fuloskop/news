@@ -22,12 +22,16 @@ git clone https://github.com/fuloskop/news.git
 
 docker-compose up -d --build
 
+"Check docker mysql. On some systems it does not start itself on the first build."
+
+cp .env.example .env
+
 docker exec -it "here-docker-php-container" bash
 
 composer install
 
 php artisan key:generate
 
-php artisan migrate:fresh --seed
-
 php artisan cache:clear
+
+php artisan migrate:fresh --seed
