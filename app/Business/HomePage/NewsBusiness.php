@@ -3,6 +3,7 @@
 namespace App\Business\HomePage;
 
 
+use App\Models\News;
 use App\Repositories\HomePage\NewsRepository;
 use function Symfony\Component\Translation\t;
 
@@ -24,6 +25,10 @@ class NewsBusiness
     public function getNewsById($id)
     {
         return $this->NewsRepository->getNewsById($id);
+    }
+    public function getNewsByIdWithoutFail($id)
+    {
+        return $this->NewsRepository->getNewsByIdWithoutFail($id);
     }
 
     public function getAllCategories()
@@ -68,6 +73,13 @@ class NewsBusiness
 
     public function getNewsByUserRead($user)
     {
-        return $this->NewsRepository->getNewsByUserRead($user->id)->latest()->paginate(10);
+        $logs = $this->NewsRepository->getNewsByUserRead($user->id);
+        $newsIdsArray = array();
+        foreach ($logs->get() as $log) {
+            $newsIdsArray[] = substr(strrchr($log->message, ' '), 1);
+        }
+        $readedNews = $this->getNewsByIdWithoutFail($newsIdsArray);
+
+        return compact('logs','readedNews');
     }
 }

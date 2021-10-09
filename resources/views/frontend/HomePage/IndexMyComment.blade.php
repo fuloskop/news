@@ -16,13 +16,15 @@
                 <tr>
                     <th scope="col" class="text-center">Yorum İçeriği</th>
                     <th scope="col" class="text-center">Haber Başlığı</th>
+                    <th scope="col" class="text-center">Yazdığınız Tarih</th>
                 </tr>
                 </thead>
                 <tbody>
                 @foreach($comments as $comment)
                 <tr>
-                    <td class="col-6 text-center">{{$comment->body}}</td>
-                    <td class="col-6 text-center">{{$comment->news->title}}</td>
+                    <td class="text-center">{{$comment->body}}</td>
+                    <td class="text-center">{{$comment->news->title}}</td>
+                    <td class="text-center">{{$comment->created_at}}</td>
                 </tr>
                 @endforeach
                 </tbody>

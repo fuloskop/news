@@ -9,7 +9,7 @@
 
 ## About Our App
 
-Projemiz haber sitesi uygulamasıdır. Haber oluşturulur. Yorum yapılır. Aktivite takibi yapılır.
+Projemiz haber sitesi uygulamasıdır. Haber oluşturulur. Yorum yapılır. Aktivite takibi yapılır. Takibe aldığınız kategorilere göre haber akışınız oluşur. Özel akışınızın oluşması için kategorileri takip etmeniz gerekmektedir.
 
 
 ## Open api(swagger)

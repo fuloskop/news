@@ -61,8 +61,13 @@ class NewsController extends Controller
     {
         $user = auth()->user();
         $this->logger->activity("User opened the page of the news he or she read");
-        $logs = $this->NewsBusiness->getNewsByUserRead($user);
 
-        return view('frontend.HomePage.IndexOldNews',compact('logs'));
+        $data = $this->NewsBusiness->getNewsByUserRead($user);
+        $logs = $data['logs'];
+        $readedNews = $data['readedNews'];
+
+        $logs = $logs->latest()->paginate(10);
+
+        return view('frontend.HomePage.IndexOldNews',compact('logs','readedNews'));
     }
 }

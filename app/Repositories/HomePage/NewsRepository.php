@@ -28,6 +28,10 @@ class NewsRepository
     {
         return News::with('Comments')->findOrFail($id);
     }
+    public function getNewsByIdWithoutFail($id)
+    {
+        return News::with('Comments')->find($id);
+    }
 
     public function getAllCategories()
     {

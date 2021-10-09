@@ -14,15 +14,24 @@
             <table class="table table-striped">
                 <thead>
                 <tr>
-                    <th scope="col" class="col-6 text-center">Okuğudunuz haberlere ait id:</th>
-                    <th scope="col" class="col-6 text-center">Haber Linki</th>
+                    <th scope="col" class="text-center">Okuğudunuz haberlere ait id:</th>
+                    <th scope="col" class="text-center">Haber Başlığı</th>
+                    <th scope="col" class="text-center">Okuduğunuz tarih</th>
+                    <th scope="col" class="text-center">Haber Linki</th>
+
                 </tr>
                 </thead>
                 <tbody>
                 @foreach($logs as $log)
                 <tr>
-                    <td class="col-6 text-center">{{ $id = substr(strrchr($log->message, ' '), 1)}}</td>
-                    <td class="col-6 text-center"><a href="{{route('News.show',$id)}}">Tıkla</a></td>
+                    <td class="text-center">{{ $id = substr(strrchr($log->message, ' '), 1)}}</td>
+                    @foreach($readedNews as $News) @if($News->id == $id)
+                    <td class="text-center"> {{$News->title}} </td>
+                    @else
+                        <td class="text-center">Okuduğunuz haber artık mevcut değil.</td>
+                    @endif @endforeach
+                    <td class="text-center">{{ $log->created_at }}</td>
+                    <td class="text-center"><a href="{{route('News.show',$id)}}">Tıkla</a></td>
                 </tr>
                 @endforeach
                 </tbody>
