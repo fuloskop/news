@@ -25,11 +25,22 @@
                 @foreach($logs as $log)
                 <tr>
                     <td class="text-center">{{ $id = substr(strrchr($log->message, ' '), 1)}}</td>
-                    @foreach($readedNews as $News) @if($News->id == $id)
-                    <td class="text-center"> {{$News->title}} </td>
-                    @else
-                        <td class="text-center">Okuduğunuz haber artık mevcut değil.</td>
-                    @endif @endforeach
+                    <td class="text-center">
+                        @php
+                            $is_find =false;
+                        @endphp
+                    @foreach($readedNews as $News)
+                        @if($News->id == $id)
+                            {{$News->title}}
+                                @php
+                                    $is_find =true;
+                                @endphp
+                        @endif
+                    @endforeach
+                        @if(!$is_find)
+                            Okuduğunuz haber artık mevcut değil.
+                            @endif
+                    </td>
                     <td class="text-center">{{ $log->created_at }}</td>
                     <td class="text-center"><a href="{{route('News.show',$id)}}">Tıkla</a></td>
                 </tr>
